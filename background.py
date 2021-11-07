@@ -49,12 +49,12 @@ class StarSet:
     def __init__(self):
         self.stars: List[Star] = []
         for i in range(4, 6):
-            self.stars.append(Star("assets/star.png", randint(0, constants.SCREEN_WIDTH), randint(0, constants.SCREEN_HEIGHT)))
+            self.stars.append(Star("assets/star_purple.png", randint(0, constants.SCREEN_WIDTH), randint(0, constants.SCREEN_HEIGHT)))
 
     def generate_star(self):
         x_pos: int = constants.SCREEN_WIDTH
         y_pos: int = randint(0, constants.SCREEN_HEIGHT)
-        self.stars.append(Star("assets/star.png", x_pos, y_pos))
+        self.stars.append(Star("assets/star_purple.png", x_pos, y_pos))
     
     def clear_trash(self):
         for star in self.stars:

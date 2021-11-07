@@ -30,10 +30,6 @@ def main():
         # Check if mouse down, update size of player sprite
         plr.update(mouse.get_pressed()[0], constants.SCREEN_HEIGHT - 10)
 
-        #Generate content
-        # map.clear_trash()
-        # map.generate()
-
         # Check for collisions here
         if map.check_for_collision(plr):
             break
