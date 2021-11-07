@@ -3,9 +3,6 @@ from random import randint
 from player import Player
         
 class Block(pg.sprite.Sprite):
-    rect: pg.Rect
-    surface: pg.Surface
-
     def __init__(self, img: str, x_pos: int, y_pos: int):
         pg.sprite.Sprite.__init__(self)
         self.surface = pg.image.load(img)
@@ -17,10 +14,6 @@ class Block(pg.sprite.Sprite):
         self.rect.x -= 5
 
 class Obstacle:
-    blocks: list[Block]
-    num_blocks: int
-    first_block: Block
-
     def __init__(self):
         self.num_blocks = randint(3, 5)
         self.blocks = []
@@ -84,17 +77,11 @@ class Obstacle:
         return False
 
 class ObstacleSet:
-    obstacles: list[Obstacle]
-
     def __init__(self):
         self.obstacles = []
     
-    def add_obstacle(self, obs: Obstacle) -> None:
-        self.get_obstacles().append(obs)
-    
     def generate(self) -> None:
-        if randint(0, 4) < 1:
-            self.add_obstacle(Obstacle())
+        self.get_obstacles().append(Obstacle())
     
     def clear_trash(self) -> None:
         for obstacle in self.get_obstacles():
