@@ -54,6 +54,7 @@ def main():
 
         facePosition = (plr.surf.get_width() - constants.PLAYER_WIDTH, plr.surf.get_height()/2 - constants.PLAYER_WIDTH/2)
         faceSize = (constants.PLAYER_WIDTH, constants.PLAYER_WIDTH)
+        plr.surf.fill(constants.PLAYER_COLOR)
         plr.surf.blit(pg.transform.scale(pg.image.load(os.path.join("assets", "face.png")), faceSize), facePosition)
         screen.blit(plr.surf, plr.rect)
         pg.display.flip()
