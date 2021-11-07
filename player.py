@@ -5,7 +5,7 @@ import os
 class Player:
     def __init__(self):
         self.surf = pg.Surface((constants.PLAYER_LENGTH, constants.PLAYER_WIDTH))
-        self.surf.fill(constants.BLACK)
+        self.surf.fill(constants.PLAYER_COLOR)
         self.rect = self.surf.get_rect()
 
     def update(self, mouseDown, maxHeight):
