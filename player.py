@@ -1,19 +1,18 @@
 import pygame as pg
+import constants
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-class Player(pg.sprite.Sprite):
+class Player:
     def __init__(self):
         super(Player, self).__init__()
-        self.surf = pg.Surface((75, 25))
-        self.surf.fill((0, 0, 0))
+        self.surf = pg.Surface((constants.PLAYER_LENGTH, constants.PLAYER_WIDTH))
+        self.surf.fill(constants.BLACK)
         self.rect = self.surf.get_rect()
 
     def update(self, mouseDown):
         currentHeight = self.surf.get_height()
-        newHeight = min(max(self.surf.get_height() + 10 * ((2 * mouseDown)-1), 25), SCREEN_HEIGHT - 10)
+        newHeight = min(max(self.surf.get_height() + 10 * ((2 * mouseDown)-1), 25), constants.SCREEN_HEIGHT - 10)
         self.rect.move_ip(0, (currentHeight - newHeight)/2)
         self.surf = pg.Surface((self.surf.get_width(), newHeight))
 
     def increaseLength(self):
-        self.surf = pg.Surface((self.surf.get_width() + 25, self.surf.get_height()))
+        self.surf = pg.Surface((self.surf.get_width() + constants.PLAYER_LENGTH_GROWTH, self.surf.get_height()))
