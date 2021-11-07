@@ -7,7 +7,7 @@ from obstacles import ObstacleSet
 from player import Player
 from map import Map
 from tokens import TokenSet
-from stars import StarSet
+from background import StarSet, CloudSet
 
 screen = pg.display.set_mode([constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT])
 
@@ -18,7 +18,7 @@ def main():
 
     running = True
     clock = pg.time.Clock()
-    map: Map = Map(ObstacleSet(), TokenSet(), StarSet())
+    map: Map = Map(ObstacleSet(), TokenSet(), StarSet(), CloudSet())
     while running:
         clock.tick(constants.FPS)
         for event in pg.event.get():
@@ -31,8 +31,8 @@ def main():
         plr.update(mouse.get_pressed()[0], constants.SCREEN_HEIGHT - 10)
 
         #Generate content
-        map.clear_trash()
-        map.generate()
+        # map.clear_trash()
+        # map.generate()
 
         # Check for collisions here
         if map.check_for_collision(plr):
@@ -41,13 +41,15 @@ def main():
 
         # Draw the actual content
         screen.fill(constants.WHITE)
+        for star in map.star_set.stars:
+            screen.blit(star.surface, star.rect)
+        for cloud in map.cloud_set.clouds:
+            screen.blit(cloud.surface, cloud.rect)
         for obstacle in map.obstacle_set.obstacles:
             for block in obstacle.blocks:
                 screen.blit(block.surface, block.rect)
         for token in map.token_set.get_tokens():
             screen.blit(token.surface, token.rect) 
-        for star in map.star_set.stars:
-            screen.blit(star.surface, star.rect)
         screen.blit(plr.surf, plr.rect)
         pg.display.flip()
 
