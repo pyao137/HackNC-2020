@@ -1,26 +1,27 @@
 import pygame as pg
+import sys
 from pygame.locals import *
+from obstacles import ObstacleSet
 
 screen = pg.display.set_mode([800, 600])
 
 def main():
-    running = True
-    while running:
+    obs: ObstacleSet = ObstacleSet()
+    clock = pg.time.Clock()
+    while 1:
+        clock.tick(60)
         for event in pg.event.get():
-            if event.type == pg.QUIT:
-                running = False
-
-            # Check if mouse down, update size of player sprite
-
-
-        # Check for collisions here
-
-
-        # Draw the actual content
-        screen.fill((255, 255, 255))
-        pg.draw.circle(screen, (0, 0, 255), (400, 300), 75)
+            if event.type == pg.QUIT: sys.exit()
+        
+        obs.clear_trash()
+        obs.generate()
+        screen.fill((0, 0, 0))
+        for obstacle in obs.get_obstacles():
+            for block in obstacle.get_blocks():
+                screen.blit(block.surface, (block.pos_x, block.pos_y))
         pg.display.flip()
+        obs.update()
+        print(len(obs.get_obstacles()))
 
-    pg.quit()
-
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()
