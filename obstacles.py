@@ -1,26 +1,11 @@
 import pygame as pg
-<<<<<<< HEAD
-<<<<<<< HEAD
 import constants
-from random import randint
-=======
-=======
-import os
->>>>>>> d7ea34660c9382d51bd625cebce31f7e66ff5ba0
 from random import randint, sample
 from typing import List
->>>>>>> main
 from player import Player
-        
-<<<<<<< HEAD
-<<<<<<< HEAD
-class Block:
-    def __init__(self, img: str, x_pos: int, y_pos: int):
-=======
-=======
-blockAsset = os.path.join("assets", "block.png")
 
->>>>>>> d7ea34660c9382d51bd625cebce31f7e66ff5ba0
+screen = pg.display.set_mode([800, 600])
+
 def getBlockColor():
     res = [255, 255, 255, 128]
     if randint(0, 1) == 0:
@@ -31,12 +16,7 @@ def getBlockColor():
     return res
 
 class Block(pg.sprite.Sprite):
-    pos_x: int
-    pos_y: int
-    surface: pg.Surface
-
     def __init__(self, img: str, x_pos: int, y_pos: int, color: pg.Color):
->>>>>>> main
         pg.sprite.Sprite.__init__(self)
         self.surface = pg.transform.scale(pg.image.load(img), (32, 32))
         self.rect = self.surface.get_rect()
@@ -50,41 +30,17 @@ class Block(pg.sprite.Sprite):
     def update(self) -> None:
         self.rect.x -= constants.MOVEMENT_SPEED
 
-    def inside(self, x: int, y: int) -> bool:
-        if self.pos_x <= x <= self.pos_x + self.surface.get_width():
-            if self.pos_y <= y <= self.pos_y + self.surface.get_height():
-                return True
-        return False
-
 class Obstacle:
     def __init__(self):
-<<<<<<< HEAD
         self.num_blocks: int = randint(constants.MAX_BLOCKS_PER_OBSTACLE - 2, constants.MAX_BLOCKS_PER_OBSTACLE)
-        self.blocks: list[Block] = []
-        up_or_down: int = randint(0, 1)
-        if up_or_down == 0:
-            print("build top")
-            self.first_block: Block = Block("img.png", constants.SCREEN_WIDTH, 0)
-            self.blocks.append(self.first_block)
-            self.build_obstacle_top()
-        else:
-            print("build bottom")
-            self.first_block: Block = Block("img.png", constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
-=======
-        self.num_blocks: int = randint(3, 5)
         self.blocks: List[Block] = []
         up_or_down: int = randint(0, 1)
         if up_or_down == 0:
-            self.first_block = Block(blockAsset, 800, 0, getBlockColor())
+            self.first_block: Block = Block("assets/block.png", constants.SCREEN_WIDTH, 0, getBlockColor())
             self.blocks.append(self.first_block)
             self.build_obstacle_top()
         else:
-<<<<<<< HEAD
-            self.first_block = Block("Block.png", 800, 600, getBlockColor())
->>>>>>> main
-=======
-            self.first_block = Block(blockAsset, 800, 600, getBlockColor())
->>>>>>> d7ea34660c9382d51bd625cebce31f7e66ff5ba0
+            self.first_block: Block = Block("assets/block.png", constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, getBlockColor())
             self.blocks.append(self.first_block)
             self.build_obstacle_bottom()
     
@@ -101,7 +57,7 @@ class Obstacle:
                 curr_x += self.first_block.surface.get_width()
             else:
                 curr_x -= self.first_block.surface.get_width()
-            self.blocks.append(Block(blockAsset, curr_x, curr_y, getBlockColor()))
+            self.blocks.append(Block("assets/block.png", curr_x, curr_y, getBlockColor()))
         
     def build_obstacle_bottom(self) -> None:
         curr_x: int = constants.SCREEN_WIDTH
@@ -116,17 +72,11 @@ class Obstacle:
                 curr_x += self.first_block.surface.get_width()
             else:
                 curr_x -= self.first_block.surface.get_width()
-            self.blocks.append(Block(blockAsset, curr_x, curr_y, getBlockColor()))
+            self.blocks.append(Block("assets/block.png", curr_x, curr_y, getBlockColor()))
     
     def update(self) -> None:
         for block in self.blocks:
             block.update()
-<<<<<<< HEAD
-=======
-    
-    def get_blocks(self) -> List[Block]:
-        return self.blocks
->>>>>>> main
 
     def check_for_removal(self) -> bool:
         if self.first_block.rect.x < 0:
@@ -150,15 +100,8 @@ class ObstacleSet:
     def clear_trash(self) -> None:
         for obstacle in self.obstacles:
             if obstacle.check_for_removal():
-<<<<<<< HEAD
                 self.obstacles.remove(obstacle) 
                 del obstacle
-=======
-                self.obstacles.remove(obstacle)
-
-    def get_obstacles(self) -> List[Obstacle]:
-        return self.obstacles
->>>>>>> main
 
     def update(self) -> None:
         for obstacle in self.obstacles:
