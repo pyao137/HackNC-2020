@@ -20,11 +20,11 @@ class Token:
 class TokenSet:
     def __init__(self):
         self.tokens: List[Token] = []
-    
+
     def generate_token(self) -> None:
         y: int = self.get_token_y()
         self.tokens.append(Token(tokenAsset, 800, y))
-    
+
     def get_token_y(self) -> int:
         if (randint(0, 1) == 1):
             return randint(10, 200)
@@ -38,11 +38,11 @@ class TokenSet:
 
     def get_tokens(self) -> List[Token]:
         return self.tokens
-    
+
     def update(self) -> None:
         for token in self.get_tokens():
             token.update()
-    
+
     def check_eat(self, other: Player) -> bool:
         for token in self.tokens:
             if token.rect.colliderect(other.rect):

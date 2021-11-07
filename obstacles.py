@@ -3,7 +3,7 @@ import os
 from random import randint, sample
 from typing import List
 from player import Player
-        
+
 blockAsset = os.path.join("assets", "block.png")
 
 def getBlockColor():
@@ -30,7 +30,7 @@ class Block(pg.sprite.Sprite):
         colorSurface = pg.Surface((32, 32), pg.SRCALPHA)
         colorSurface.fill(color)
         self.surface.blit(colorSurface, colorSurface.get_rect())
-    
+
     def update(self) -> None:
         self.rect.x -= 5
 
@@ -53,7 +53,7 @@ class Obstacle:
             self.first_block = Block(blockAsset, 800, 600, getBlockColor())
             self.blocks.append(self.first_block)
             self.build_obstacle_bottom()
-    
+
     def build_obstacle_top(self) -> None:
         curr_x: int = 800
         curr_y: int = 0
@@ -62,13 +62,13 @@ class Obstacle:
         for i in range(1, self.num_blocks):
             direction = randint(0, 5)
             if direction <= 3:
-                curr_y += self.first_block.surface.get_height()            
+                curr_y += self.first_block.surface.get_height()
             elif direction == 4:
                 curr_x += self.first_block.surface.get_width()
             else:
                 curr_x -= self.first_block.surface.get_width()
             self.blocks.append(Block(blockAsset, curr_x, curr_y, getBlockColor()))
-        
+
     def build_obstacle_bottom(self) -> None:
         curr_x: int = 800
         curr_y: int = 600
@@ -77,17 +77,17 @@ class Obstacle:
         for i in range(1, self.num_blocks):
             direction = randint(0, 5)
             if direction <= 3:
-                curr_y -= self.first_block.surface.get_height()            
+                curr_y -= self.first_block.surface.get_height()
             elif direction == 4:
                 curr_x += self.first_block.surface.get_width()
             else:
                 curr_x -= self.first_block.surface.get_width()
             self.blocks.append(Block(blockAsset, curr_x, curr_y, getBlockColor()))
-    
+
     def update(self) -> None:
         for block in self.blocks:
             block.update()
-    
+
     def get_blocks(self) -> List[Block]:
         return self.blocks
 
@@ -96,7 +96,7 @@ class Obstacle:
             return True
         else:
             return False
-    
+
     def collision_check(self, other: Player) -> bool:
         for block in self.blocks:
             if block.rect.colliderect(other.rect):
@@ -106,10 +106,10 @@ class Obstacle:
 class ObstacleSet:
     def __init__(self):
         self.obstacles: List[Obstacle] = []
-    
+
     def generate(self) -> None:
         self.get_obstacles().append(Obstacle())
-    
+
     def clear_trash(self) -> None:
         for obstacle in self.get_obstacles():
             if obstacle.check_for_removal():
