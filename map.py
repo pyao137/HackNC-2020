@@ -1,6 +1,7 @@
 from tokens import TokenSet
 from player import Player
 from random import randint
+import constants
 from obstacles import ObstacleSet
 from stars import StarSet
 
@@ -26,7 +27,7 @@ class Map:
             else:
                 self.star_set.generate_star()
         self.count += 1
-        if self.count == 100:
+        if self.count == constants.RESET_GENERATION_COUNT:
             self.count = 0
 
     def check_for_collision(self, other: Player) -> bool:
@@ -38,3 +39,4 @@ class Map:
     def update(self):
         self.token_set.update()
         self.obstacle_set.update()
+        self.star_set.update()
