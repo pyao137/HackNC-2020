@@ -7,7 +7,8 @@ screen = pg.display.set_mode([800, 600])
 
 def main():
     obs: ObstacleSet = ObstacleSet()
-    clock = pg.time.Clock()
+    clock: pg.time.Clock = pg.time.Clock()
+    
     while 1:
         clock.tick(60)
         for event in pg.event.get():
@@ -21,7 +22,6 @@ def main():
                 screen.blit(block.surface, (block.pos_x, block.pos_y))
         pg.display.flip()
         obs.update()
-        print(len(obs.get_obstacles()))
 
 if __name__ == "__main__":
     main()

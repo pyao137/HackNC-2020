@@ -1,7 +1,5 @@
 import pygame as pg
 from random import randint
-
-screen = pg.display.set_mode([800, 600])
         
 class Block(pg.sprite.Sprite):
     pos_x: int
@@ -30,7 +28,7 @@ class Obstacle:
     first_block: Block
 
     def __init__(self):
-        self.num_blocks = randint(4, 8)
+        self.num_blocks = randint(3, 5)
         self.blocks = []
         up_or_down: int = randint(0, 1)
         if up_or_down == 0:
