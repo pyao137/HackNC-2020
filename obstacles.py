@@ -1,19 +1,26 @@
 import pygame as pg
 <<<<<<< HEAD
+<<<<<<< HEAD
 import constants
 from random import randint
 =======
+=======
+import os
+>>>>>>> d7ea34660c9382d51bd625cebce31f7e66ff5ba0
 from random import randint, sample
 from typing import List
 >>>>>>> main
 from player import Player
-
-screen = pg.display.set_mode([800, 600])
         
+<<<<<<< HEAD
 <<<<<<< HEAD
 class Block:
     def __init__(self, img: str, x_pos: int, y_pos: int):
 =======
+=======
+blockAsset = os.path.join("assets", "block.png")
+
+>>>>>>> d7ea34660c9382d51bd625cebce31f7e66ff5ba0
 def getBlockColor():
     res = [255, 255, 255, 128]
     if randint(0, 1) == 0:
@@ -68,12 +75,16 @@ class Obstacle:
         self.blocks: List[Block] = []
         up_or_down: int = randint(0, 1)
         if up_or_down == 0:
-            self.first_block = Block("Block.png", 800, 0, getBlockColor())
+            self.first_block = Block(blockAsset, 800, 0, getBlockColor())
             self.blocks.append(self.first_block)
             self.build_obstacle_top()
         else:
+<<<<<<< HEAD
             self.first_block = Block("Block.png", 800, 600, getBlockColor())
 >>>>>>> main
+=======
+            self.first_block = Block(blockAsset, 800, 600, getBlockColor())
+>>>>>>> d7ea34660c9382d51bd625cebce31f7e66ff5ba0
             self.blocks.append(self.first_block)
             self.build_obstacle_bottom()
     
@@ -90,7 +101,7 @@ class Obstacle:
                 curr_x += self.first_block.surface.get_width()
             else:
                 curr_x -= self.first_block.surface.get_width()
-            self.blocks.append(Block("Block.png", curr_x, curr_y, getBlockColor()))
+            self.blocks.append(Block(blockAsset, curr_x, curr_y, getBlockColor()))
         
     def build_obstacle_bottom(self) -> None:
         curr_x: int = constants.SCREEN_WIDTH
@@ -105,7 +116,7 @@ class Obstacle:
                 curr_x += self.first_block.surface.get_width()
             else:
                 curr_x -= self.first_block.surface.get_width()
-            self.blocks.append(Block("Block.png", curr_x, curr_y, getBlockColor()))
+            self.blocks.append(Block(blockAsset, curr_x, curr_y, getBlockColor()))
     
     def update(self) -> None:
         for block in self.blocks:
