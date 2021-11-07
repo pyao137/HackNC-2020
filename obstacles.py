@@ -17,15 +17,14 @@ def getBlockColor():
         res[randint(0, 2)] = 0
     return res
 
-class Block(pg.sprite.Sprite):
+class Block():
     def __init__(self, img: str, x_pos: int, y_pos: int, color: pg.Color):
-        pg.sprite.Sprite.__init__(self)
-        self.surface = pg.transform.scale(pg.image.load(img), (32, 32))
+        self.surface = pg.transform.scale(pg.image.load(img), (constants.BLOCK_SIZE, constants.BLOCK_SIZE))
         self.rect = self.surface.get_rect()
         self.rect.x = x_pos
         self.rect.y = y_pos
 
-        colorSurface = pg.Surface((32, 32), pg.SRCALPHA)
+        colorSurface = pg.Surface((constants.BLOCK_SIZE, constants.BLOCK_SIZE), pg.SRCALPHA)
         colorSurface.fill(color)
         self.surface.blit(colorSurface, colorSurface.get_rect())
 
