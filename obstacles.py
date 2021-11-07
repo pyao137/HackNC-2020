@@ -15,15 +15,15 @@ class Block(pg.sprite.Sprite):
 
 class Obstacle:
     def __init__(self):
-        self.num_blocks = randint(3, 5)
-        self.blocks = []
+        self.num_blocks: int = randint(3, 5)
+        self.blocks: list[Block] = []
         up_or_down: int = randint(0, 1)
         if up_or_down == 0:
-            self.first_block = Block("img.png", 800, 0)
+            self.first_block: Block = Block("img.png", 800, 0)
             self.blocks.append(self.first_block)
             self.build_obstacle_top()
         else:
-            self.first_block = Block("img.png", 800, 600)
+            self.first_block: Block = Block("img.png", 800, 600)
             self.blocks.append(self.first_block)
             self.build_obstacle_bottom()
     
@@ -78,7 +78,7 @@ class Obstacle:
 
 class ObstacleSet:
     def __init__(self):
-        self.obstacles = []
+        self.obstacles: list[Obstacle] = []
     
     def generate(self) -> None:
         self.get_obstacles().append(Obstacle())
@@ -86,7 +86,8 @@ class ObstacleSet:
     def clear_trash(self) -> None:
         for obstacle in self.get_obstacles():
             if obstacle.check_for_removal():
-                self.obstacles.remove(obstacle)      
+                self.obstacles.remove(obstacle)
+        print(len(self.obstacles))      
 
     def get_obstacles(self) -> list[Obstacle]:
         return self.obstacles

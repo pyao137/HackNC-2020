@@ -6,8 +6,8 @@ from obstacles import ObstacleSet
 
 class Map:
     def __init__(self, obs: ObstacleSet, toks: TokenSet):
-        self.obstacle_set = obs
-        self.token_set = toks
+        self.obstacle_set: ObstacleSet = obs
+        self.token_set: TokenSet = toks
     
     def clear_trash(self) -> None:
         self.obstacle_set.clear_trash()
@@ -22,6 +22,9 @@ class Map:
         
     def check_for_collision(self, other: Player) -> bool:
         return self.obstacle_set.check_for_collisions(other)
+    
+    def check_for_token_eat(self, other: Player):
+        self.token_set.check_eat(other)
     
     def update(self):
         self.token_set.update()

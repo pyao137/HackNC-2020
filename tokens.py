@@ -1,5 +1,6 @@
 import pygame as pg
 from random import randint
+from player import Player
 
 class Token:
     def __init__(self, img: str, x_pos: int, y_pos: int):
@@ -14,7 +15,7 @@ class Token:
 
 class TokenSet:
     def __init__(self):
-        self.tokens = []
+        self.tokens: list[Token] = []
     
     def generate_token(self) -> None:
         y: int = self.get_token_y()
@@ -30,10 +31,17 @@ class TokenSet:
         for token in self.tokens:
             if token.rect.x < 0:
                 self.tokens.remove(token)
-    
+        print(len(self.tokens)) 
+
     def get_tokens(self) -> list[Token]:
         return self.tokens
     
     def update(self) -> None:
         for token in self.get_tokens():
             token.update()
+    
+    def check_eat(self, other: Player) -> bool:
+        for token in self.tokens:
+            if token.rect.colliderect(other.rect):
+                other.increaseLength()
+                self.tokens.remove(token)

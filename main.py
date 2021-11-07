@@ -1,8 +1,6 @@
 import pygame as pg
-import sys
 from pygame.locals import *
 import pygame.mouse as mouse
-import math
 from player import Player
 from obstacles import ObstacleSet
 from map import Map
@@ -34,6 +32,7 @@ def main():
         if map.check_for_collision(plr):
             print("test")
             break
+        map.check_for_token_eat(plr)
 
         # Generate and clean up obstacles
         map.clear_trash()
