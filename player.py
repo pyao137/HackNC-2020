@@ -17,3 +17,4 @@ class Player(pg.sprite.Sprite):
 
     def increaseLength(self):
         self.surf = pg.Surface((self.surf.get_width() + 25, self.surf.get_height()))
+        self.rect.move_ip(-25, 0)
