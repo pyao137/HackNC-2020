@@ -1,7 +1,9 @@
 import pygame as pg
+import sys
 from pygame.locals import *
 import pygame.mouse as mouse
 import math
+from obstacles import ObstacleSet
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -31,6 +33,7 @@ def main():
 
     running = True
     clock = pg.time.Clock()
+    obs: ObstacleSet = ObstacleSet()
     while running:
         clock.tick(60)
         for event in pg.event.get():
@@ -43,11 +46,18 @@ def main():
         # Check for collisions here
 
 
+        # Generate and clean up obstacles
+        obs.clear_trash()
+        obs.generate()
+
         # Draw the actual content
         screen.fill((255, 255, 255))
+        for obstacle in obs.get_obstacles():
+            for block in obstacle.get_blocks():
+                screen.blit(block.surface, (block.pos_x, block.pos_y))
         screen.blit(plr.surf, plr.rect)
         pg.display.flip()
+        obs.update()
 
-    pg.quit()
-
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()
