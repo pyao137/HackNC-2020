@@ -1,4 +1,6 @@
 import pygame as pg
+import constants
+from random import randint
 import os
 from random import randint, sample
 from typing import List
@@ -32,7 +34,7 @@ class Block(pg.sprite.Sprite):
         self.surface.blit(colorSurface, colorSurface.get_rect())
 
     def update(self) -> None:
-        self.rect.x -= 5
+        self.rect.x -= constants.MOVEMENT_SPEED
 
     def inside(self, x: int, y: int) -> bool:
         if self.pos_x <= x <= self.pos_x + self.surface.get_width():
@@ -42,6 +44,17 @@ class Block(pg.sprite.Sprite):
 
 class Obstacle:
     def __init__(self):
+        self.num_blocks: int = randint(constants.MAX_BLOCKS_PER_OBSTACLE - 2, constants.MAX_BLOCKS_PER_OBSTACLE)
+        self.blocks: list[Block] = []
+        up_or_down: int = randint(0, 1)
+        if up_or_down == 0:
+            print("build top")
+            self.first_block: Block = Block(blockAsset, constants.SCREEN_WIDTH, 0, getBlockColor())
+            self.blocks.append(self.first_block)
+            self.build_obstacle_top()
+        else:
+            print("build bottom")
+            self.first_block: Block = Block(blockAsset, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, getBlockColor())
         self.num_blocks: int = randint(3, 5)
         self.blocks: List[Block] = []
         up_or_down: int = randint(0, 1)
@@ -55,12 +68,12 @@ class Obstacle:
             self.build_obstacle_bottom()
 
     def build_obstacle_top(self) -> None:
-        curr_x: int = 800
+        curr_x: int = constants.SCREEN_WIDTH
         curr_y: int = 0
         direction: int
 
         for i in range(1, self.num_blocks):
-            direction = randint(0, 5)
+            direction = randint(0, 5) #For determining whether to build vertically, left, or right
             if direction <= 3:
                 curr_y += self.first_block.surface.get_height()
             elif direction == 4:
@@ -70,12 +83,12 @@ class Obstacle:
             self.blocks.append(Block(blockAsset, curr_x, curr_y, getBlockColor()))
 
     def build_obstacle_bottom(self) -> None:
-        curr_x: int = 800
-        curr_y: int = 600
+        curr_x: int = constants.SCREEN_WIDTH
+        curr_y: int = constants.SCREEN_HEIGHT
         direction: int
 
         for i in range(1, self.num_blocks):
-            direction = randint(0, 5)
+            direction = randint(0, 5) #For determining whether to build vertically, left, or right
             if direction <= 3:
                 curr_y -= self.first_block.surface.get_height()
             elif direction == 4:
@@ -108,18 +121,19 @@ class ObstacleSet:
         self.obstacles: List[Obstacle] = []
 
     def generate(self) -> None:
-        self.get_obstacles().append(Obstacle())
+        self.obstacles.append(Obstacle())
 
     def clear_trash(self) -> None:
-        for obstacle in self.get_obstacles():
+        for obstacle in self.obstacles:
             if obstacle.check_for_removal():
-                self.obstacles.remove(obstacle)
+                self.obstacles.remove(obstacle) 
+                del obstacle
 
     def get_obstacles(self) -> List[Obstacle]:
         return self.obstacles
 
     def update(self) -> None:
-        for obstacle in self.get_obstacles():
+        for obstacle in self.obstacles:
             obstacle.update()
 
     def check_for_collisions(self, other: Player) -> bool:
