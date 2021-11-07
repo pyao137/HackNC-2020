@@ -1,20 +1,35 @@
 import pygame as pg
-from random import randint
+from random import randint, sample
 from typing import List
 
 screen = pg.display.set_mode([800, 600])
         
+def getBlockColor():
+    res = [255, 255, 255, 128]
+    if randint(0, 1) == 0:
+        for n in sample(range(0, 3), 2):
+            res[n] = 0
+    else:
+        res[randint(0, 2)] = 0
+    return res
+
+    
+
 class Block(pg.sprite.Sprite):
     pos_x: int
     pos_y: int
     surface: pg.Surface
 
-    def __init__(self, img: str, x_pos: int, y_pos: int):
+    def __init__(self, img: str, x_pos: int, y_pos: int, color: pg.Color):
         pg.sprite.Sprite.__init__(self)
-        self.surface = pg.image.load(img)
+        self.surface = pg.transform.scale(pg.image.load(img), (32, 32))
         self.pos_x = x_pos
         self.pos_y = y_pos
 
+        colorSurface = pg.Surface((32, 32), pg.SRCALPHA)
+        colorSurface.fill(color)
+        self.surface.blit(colorSurface, colorSurface.get_rect())
+    
     def update(self):
         self.pos_x -= 5
 
@@ -34,11 +49,11 @@ class Obstacle:
         self.blocks = []
         up_or_down: int = randint(0, 1)
         if up_or_down == 0:
-            self.first_block = Block("img.png", 800, 0)
+            self.first_block = Block("Block.png", 800, 0, getBlockColor())
             self.blocks.append(self.first_block)
             self.build_obstacle_top()
         else:
-            self.first_block = Block("img.png", 800, 600)
+            self.first_block = Block("Block.png", 800, 600, getBlockColor())
             self.blocks.append(self.first_block)
             self.build_obstacle_bottom()
     
@@ -55,7 +70,7 @@ class Obstacle:
                 curr_x += self.first_block.surface.get_width()
             else:
                 curr_x -= self.first_block.surface.get_width()
-            self.blocks.append(Block("img.png", curr_x, curr_y))
+            self.blocks.append(Block("Block.png", curr_x, curr_y, getBlockColor()))
         
 
     def build_obstacle_bottom(self) -> None:
@@ -71,7 +86,7 @@ class Obstacle:
                 curr_x += self.first_block.surface.get_width()
             else:
                 curr_x -= self.first_block.surface.get_width()
-            self.blocks.append(Block("img.png", curr_x, curr_y))
+            self.blocks.append(Block("Block.png", curr_x, curr_y, getBlockColor()))
     
     def update(self) -> None:
         for block in self.blocks:
