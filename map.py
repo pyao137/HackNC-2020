@@ -2,22 +2,29 @@ from tokens import TokenSet
 from player import Player
 from random import randint
 from obstacles import ObstacleSet
+from stars import StarSet
 
 class Map:
-    def __init__(self, obs: ObstacleSet, toks: TokenSet):
+    def __init__(self, obs: ObstacleSet, toks: TokenSet, strs: StarSet):
         self.obstacle_set: ObstacleSet = obs
         self.token_set: TokenSet = toks
+        self.star_set: StarSet = strs
         self.count: int = 0
+
     def clear_trash(self) -> None:
         self.obstacle_set.clear_trash()
         self.token_set.clear_trash()
+        self.star_set.clear_trash()
 
     def generate(self) -> None:
         if (self.count % 20 == 0):
-            if (randint(0, 1) == 1):
+            i: int = randint(0, 30)
+            if i <= 15:
+                self.obstacle_set.generate()
+            elif i <= 25:
                 self.token_set.generate_token()
             else:
-                self.obstacle_set.generate()
+                self.star_set.generate_star()
         self.count += 1
         if self.count == 100:
             self.count = 0
