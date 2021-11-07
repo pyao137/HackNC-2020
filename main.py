@@ -7,6 +7,7 @@ from obstacles import ObstacleSet
 from player import Player
 from map import Map
 from tokens import TokenSet
+from stars import StarSet
 
 screen = pg.display.set_mode([constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT])
 
@@ -17,7 +18,7 @@ def main():
 
     running = True
     clock = pg.time.Clock()
-    map: Map = Map(ObstacleSet(), TokenSet())
+    map: Map = Map(ObstacleSet(), TokenSet(), StarSet())
     while running:
         clock.tick(constants.FPS)
         for event in pg.event.get():
@@ -45,6 +46,8 @@ def main():
                 screen.blit(block.surface, block.rect)
         for token in map.token_set.get_tokens():
             screen.blit(token.surface, token.rect) 
+        for star in map.star_set.stars:
+            screen.blit(star.surface, star.rect)
         screen.blit(plr.surf, plr.rect)
         pg.display.flip()
 
