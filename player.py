@@ -3,7 +3,6 @@ import constants
 
 class Player:
     def __init__(self):
-        super(Player, self).__init__()
         self.surf = pg.Surface((constants.PLAYER_LENGTH, constants.PLAYER_WIDTH))
         self.surf.fill(constants.BLACK)
         self.rect = self.surf.get_rect()

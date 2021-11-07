@@ -6,7 +6,6 @@ from typing import List
 
 class Token:
     def __init__(self, img: str, x_pos: int, y_pos: int):
-        pg.sprite.Sprite.__init__(self)
         self.surface = pg.image.load(img)
         self.rect = self.surface.get_rect()
         self.rect.x = x_pos
