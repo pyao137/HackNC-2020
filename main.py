@@ -10,6 +10,8 @@ from map import Map
 from tokens import TokenSet
 from background import StarSet, CloudSet
 
+pg.init()
+font = pg.font.Font("assets/slkscre.ttf", 32)
 screen = pg.display.set_mode([constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT])
 
 def main():
@@ -20,6 +22,7 @@ def main():
     running = True
     clock = pg.time.Clock()
     map: Map = Map(ObstacleSet(), TokenSet(), StarSet(), CloudSet())
+    score: int = 0
     while running:
         clock.tick(constants.FPS)
         for event in pg.event.get():
@@ -34,7 +37,8 @@ def main():
         # Check for collisions here
         if map.check_for_collision(plr):
             break
-        map.check_for_token_eat(plr)
+
+        score += map.check_for_token_eat(plr)
 
         # Draw the actual content
         screen.fill(constants.BGCOLOR)
@@ -53,6 +57,20 @@ def main():
         plr.surf.blit(pg.transform.scale(pg.image.load(os.path.join("assets", "face.png")), faceSize), facePosition)
         screen.blit(plr.surf, plr.rect)
         pg.display.flip()
+    
+    game_over_running = True
+    while game_over_running: 
+        clock.tick(constants.FPS)
+        pg.display.flip()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                game_over_running = False
+        screen.fill(constants.GAME_OVER_COLOR)
+        img = pg.image.load("assets/game_over.png")
+        text = font.render('Score: ' + str(score), True, (0, 0, 0))
+        screen.blit(text, (constants.SCREEN_WIDTH / 2 - text.get_width() / 2, constants.SCREEN_HEIGHT / 2 + (img.get_height() / 2) + 20))
+        screen.blit(img, (constants.SCREEN_WIDTH / 2 - (img.get_width() / 2), constants.SCREEN_HEIGHT / 2 - (img.get_height() / 2)))
+    print(score)
 
 if __name__ == "__main__":
     main()

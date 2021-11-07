@@ -41,8 +41,11 @@ class TokenSet:
         for token in self.get_tokens():
             token.update()
     
-    def check_eat(self, other: Player) -> bool:
+    def check_eat(self, other: Player) -> int:
+        count: int = 0
         for token in self.tokens:
             if token.rect.colliderect(other.rect):
                 other.increaseLength()
                 self.tokens.remove(token)
+                count += 1
+        return count
