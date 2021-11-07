@@ -12,7 +12,7 @@ screen = pg.display.set_mode([constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT])
 
 def main():
     plr = Player()
-    plr.rect.centerx = constants.SCREEN_WIDTH / 2
+    plr.rect.centerx = 2 * constants.SCREEN_WIDTH / 3
     plr.rect.centery = constants.SCREEN_HEIGHT / 2
 
     running = True
