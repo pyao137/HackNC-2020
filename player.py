@@ -1,5 +1,6 @@
 import pygame as pg
 import constants
+import os
 
 class Player:
     def __init__(self):
@@ -9,7 +10,7 @@ class Player:
 
     def update(self, mouseDown, maxHeight):
         currentHeight = self.surf.get_height()
-        newHeight = min(max(self.surf.get_height() + 10 * ((2 * mouseDown)-1), 25), maxHeight)
+        newHeight = min(max(self.surf.get_height() + 10 * ((2 * mouseDown)-1), constants.PLAYER_WIDTH), maxHeight)
         self.rect.move_ip(0, (currentHeight - newHeight)/2)
         self.rect.height = newHeight
         self.surf = pg.Surface((self.surf.get_width(), newHeight))

@@ -1,6 +1,7 @@
 import pygame as pg
 import pygame.mouse as mouse
 import constants
+import os
 from pygame.locals import *
 from player import Player
 from obstacles import ObstacleSet
@@ -46,6 +47,10 @@ def main():
                 screen.blit(block.surface, block.rect)
         for token in map.token_set.get_tokens():
             screen.blit(token.surface, token.rect) 
+
+        facePosition = (plr.surf.get_width() - constants.PLAYER_WIDTH, plr.surf.get_height()/2 - constants.PLAYER_WIDTH/2)
+        faceSize = (constants.PLAYER_WIDTH, constants.PLAYER_WIDTH)
+        plr.surf.blit(pg.transform.scale(pg.image.load(os.path.join("assets", "face.png")), faceSize), facePosition)
         screen.blit(plr.surf, plr.rect)
         pg.display.flip()
 
