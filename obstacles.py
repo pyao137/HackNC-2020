@@ -1,10 +1,11 @@
 import pygame as pg
+import os
 from random import randint, sample
 from typing import List
 from player import Player
-
-screen = pg.display.set_mode([800, 600])
         
+blockAsset = os.path.join("assets", "block.png")
+
 def getBlockColor():
     res = [255, 255, 255, 128]
     if randint(0, 1) == 0:
@@ -45,11 +46,11 @@ class Obstacle:
         self.blocks: List[Block] = []
         up_or_down: int = randint(0, 1)
         if up_or_down == 0:
-            self.first_block = Block("Block.png", 800, 0, getBlockColor())
+            self.first_block = Block(blockAsset, 800, 0, getBlockColor())
             self.blocks.append(self.first_block)
             self.build_obstacle_top()
         else:
-            self.first_block = Block("Block.png", 800, 600, getBlockColor())
+            self.first_block = Block(blockAsset, 800, 600, getBlockColor())
             self.blocks.append(self.first_block)
             self.build_obstacle_bottom()
     
@@ -66,7 +67,7 @@ class Obstacle:
                 curr_x += self.first_block.surface.get_width()
             else:
                 curr_x -= self.first_block.surface.get_width()
-            self.blocks.append(Block("Block.png", curr_x, curr_y, getBlockColor()))
+            self.blocks.append(Block(blockAsset, curr_x, curr_y, getBlockColor()))
         
     def build_obstacle_bottom(self) -> None:
         curr_x: int = 800
@@ -81,7 +82,7 @@ class Obstacle:
                 curr_x += self.first_block.surface.get_width()
             else:
                 curr_x -= self.first_block.surface.get_width()
-            self.blocks.append(Block("Block.png", curr_x, curr_y, getBlockColor()))
+            self.blocks.append(Block(blockAsset, curr_x, curr_y, getBlockColor()))
     
     def update(self) -> None:
         for block in self.blocks:
