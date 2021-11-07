@@ -23,8 +23,7 @@ class TokenSet:
         self.tokens: List[Token] = []
 
     def generate_token(self) -> None:
-        y: int = self.get_token_y()
-        self.tokens.append(Token(tokenAsset, 800, y))
+        self.tokens.append(Token(tokenAsset, constants.SCREEN_WIDTH, self.get_token_y()))
 
     def get_token_y(self) -> int:
         if (randint(0, 1) == 1):
