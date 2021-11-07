@@ -8,9 +8,9 @@ class Player:
         self.surf.fill(constants.BLACK)
         self.rect = self.surf.get_rect()
 
-    def update(self, mouseDown):
+    def update(self, mouseDown, maxHeight):
         currentHeight = self.surf.get_height()
-        newHeight = min(max(self.surf.get_height() + 10 * ((2 * mouseDown)-1), 25), constants.SCREEN_HEIGHT - 10)
+        newHeight = min(max(self.surf.get_height() + 10 * ((2 * mouseDown)-1), 25), maxHeight)
         self.rect.move_ip(0, (currentHeight - newHeight)/2)
         self.surf = pg.Surface((self.surf.get_width(), newHeight))
 

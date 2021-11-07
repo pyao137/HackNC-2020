@@ -4,6 +4,7 @@ import constants
 from pygame.locals import *
 from player import Player
 from obstacles import ObstacleSet
+from player import Player
 from map import Map
 from tokens import TokenSet
 
@@ -26,9 +27,9 @@ def main():
         map.update()
 
         # Check if mouse down, update size of player sprite
-        plr.update(mouse.get_pressed()[0])
-        
-        # Generate and clean up obstacles
+        plr.update(mouse.get_pressed()[0], constants.SCREEN_HEIGHT - 10)
+
+        #Generate content
         map.clear_trash()
         map.generate()
 

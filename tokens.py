@@ -2,6 +2,7 @@ import pygame as pg
 import constants
 from random import randint
 from player import Player
+from typing import List
 
 class Token:
     def __init__(self, img: str, x_pos: int, y_pos: int):
@@ -16,7 +17,7 @@ class Token:
 
 class TokenSet:
     def __init__(self):
-        self.tokens: list[Token] = []
+        self.tokens: List[Token] = []
     
     def generate_token(self) -> None:
         self.tokens.append(Token("intro_ball.gif", constants.SCREEN_WIDTH, self.get_token_y()))
@@ -31,9 +32,12 @@ class TokenSet:
         for token in self.tokens:
             if token.rect.x < 0:
                 self.tokens.remove(token)
+<<<<<<< HEAD
                 del token
+=======
+>>>>>>> main
 
-    def get_tokens(self) -> list[Token]:
+    def get_tokens(self) -> List[Token]:
         return self.tokens
     
     def update(self) -> None:
