@@ -1,35 +1,23 @@
 import pygame as pg
 from random import randint
-<<<<<<< HEAD
-=======
-from typing import List
-
-screen = pg.display.set_mode([800, 600])
->>>>>>> Main
+from player import Player
         
 class Block(pg.sprite.Sprite):
-    pos_x: int
-    pos_y: int
+    rect: pg.Rect
     surface: pg.Surface
 
     def __init__(self, img: str, x_pos: int, y_pos: int):
         pg.sprite.Sprite.__init__(self)
         self.surface = pg.image.load(img)
-        self.pos_x = x_pos
-        self.pos_y = y_pos
+        self.rect = self.surface.get_rect()
+        self.rect.x = x_pos
+        self.rect.y = y_pos
 
-    def update(self):
-        self.pos_x -= 5
-
-    def inside(self, x: int, y: int) -> bool:
-        if self.pos_x <= x <= self.pos_x + self.surface.get_width():
-            if self.pos_y <= y <= self.pos_y + self.surface.get_height():
-                return True
-        return False
-
+    def update(self) -> None:
+        self.rect.x -= 5
 
 class Obstacle:
-    blocks: List[Block]
+    blocks: list[Block]
     num_blocks: int
     first_block: Block
 
@@ -61,7 +49,6 @@ class Obstacle:
                 curr_x -= self.first_block.surface.get_width()
             self.blocks.append(Block("img.png", curr_x, curr_y))
         
-
     def build_obstacle_bottom(self) -> None:
         curr_x: int = 800
         curr_y: int = 600
@@ -81,21 +68,23 @@ class Obstacle:
         for block in self.blocks:
             block.update()
     
-    def get_blocks(self) -> List[Block]:
+    def get_blocks(self) -> list[Block]:
         return self.blocks
 
     def check_for_removal(self) -> bool:
-        if self.first_block.pos_x < 0:
+        if self.first_block.rect.x < 0:
             return True
         else:
             return False
     
-    def collision_check(self) -> bool: #Checks if the four corners of some other surface is inside any of the blocks in the obstacle
+    def collision_check(self, other: Player) -> bool:
+        for block in self.blocks:
+            if block.rect.colliderect(other.rect):
+                return True
         return False
 
-
 class ObstacleSet:
-    obstacles: List[Obstacle]
+    obstacles: list[Obstacle]
 
     def __init__(self):
         self.obstacles = []
@@ -104,7 +93,7 @@ class ObstacleSet:
         self.get_obstacles().append(obs)
     
     def generate(self) -> None:
-        if (randint(0, 4) < 1):
+        if randint(0, 4) < 1:
             self.add_obstacle(Obstacle())
     
     def clear_trash(self) -> None:
@@ -112,9 +101,15 @@ class ObstacleSet:
             if obstacle.check_for_removal():
                 self.obstacles.remove(obstacle)      
 
-    def get_obstacles(self) -> List[Obstacle]:
+    def get_obstacles(self) -> list[Obstacle]:
         return self.obstacles
 
     def update(self) -> None:
         for obstacle in self.get_obstacles():
             obstacle.update()
+
+    def check_for_collisions(self, other: Player) -> bool:
+        for obstacle in self.obstacles:
+            if obstacle.collision_check(other):
+                return True
+        return False
