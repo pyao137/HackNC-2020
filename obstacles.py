@@ -1,5 +1,11 @@
 import pygame as pg
 from random import randint
+<<<<<<< HEAD
+=======
+from typing import List
+
+screen = pg.display.set_mode([800, 600])
+>>>>>>> Main
         
 class Block(pg.sprite.Sprite):
     pos_x: int
@@ -23,7 +29,7 @@ class Block(pg.sprite.Sprite):
 
 
 class Obstacle:
-    blocks: list[Block]
+    blocks: List[Block]
     num_blocks: int
     first_block: Block
 
@@ -75,7 +81,7 @@ class Obstacle:
         for block in self.blocks:
             block.update()
     
-    def get_blocks(self) -> list[Block]:
+    def get_blocks(self) -> List[Block]:
         return self.blocks
 
     def check_for_removal(self) -> bool:
@@ -89,7 +95,7 @@ class Obstacle:
 
 
 class ObstacleSet:
-    obstacles: list[Obstacle]
+    obstacles: List[Obstacle]
 
     def __init__(self):
         self.obstacles = []
@@ -106,7 +112,7 @@ class ObstacleSet:
             if obstacle.check_for_removal():
                 self.obstacles.remove(obstacle)      
 
-    def get_obstacles(self) -> list[Obstacle]:
+    def get_obstacles(self) -> List[Obstacle]:
         return self.obstacles
 
     def update(self) -> None:
