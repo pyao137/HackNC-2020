@@ -24,7 +24,6 @@ class Block(pg.sprite.Sprite):
                 return True
         return False
 
-
 class Obstacle:
     blocks: List[Block]
     num_blocks: int
