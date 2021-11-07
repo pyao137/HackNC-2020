@@ -40,7 +40,7 @@ def main():
         map.check_for_token_eat(plr)
 
         # Draw the actual content
-        screen.fill(constants.WHITE)
+        screen.fill(constants.BGCOLOR)
         for star in map.star_set.stars:
             screen.blit(star.surface, star.rect)
         for cloud in map.cloud_set.clouds:
