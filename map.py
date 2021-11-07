@@ -11,7 +11,8 @@ class Map:
         self.token_set: TokenSet = toks
         self.star_set: StarSet = strs
         self.cloud_set: CloudSet = clds
-        self.count: int = 0
+        self.interactable_count: int = 0
+        self.background_count: int = 0
 
     def clear_trash(self) -> None:
         self.obstacle_set.clear_trash()
@@ -20,19 +21,24 @@ class Map:
         self.cloud_set.clear_trash()
 
     def generate(self) -> None:
-        if (self.count % 20 == 0):
+        if self.interactable_count % constants.INTERACTABLE_CYCLE == 0:
             i: int = randint(0, 40)
-            if i <= 20:
+            if i <= 27:
                 self.obstacle_set.generate()
-            elif i <= 30:
+            else:
                 self.token_set.generate_token()
-            elif i <= 37:
+        if self.background_count % constants.BACKGROUND_CYCLE == 0:
+            i: int = randint(0, 40)
+            if i <= 30:
                 self.star_set.generate_star()
             else:
                 self.cloud_set.generate_cloud()
-        self.count += 1
-        if self.count == constants.RESET_GENERATION_COUNT:
-            self.count = 0
+        self.interactable_count += 1
+        self.background_count += 1
+        if self.interactable_count == constants.RESET_GENERATION_COUNT:
+            self.interactable_count = 0
+        if self.background_count == constants.RESET_GENERATION_COUNT:
+            self.background_Count = 0
 
     def check_for_collision(self, other: Player) -> bool:
         return self.obstacle_set.check_for_collisions(other)
