@@ -1,6 +1,7 @@
 import pygame as pg
 from random import randint, sample
 from typing import List
+from player import Player
 
 screen = pg.display.set_mode([800, 600])
         
@@ -13,8 +14,6 @@ def getBlockColor():
         res[randint(0, 2)] = 0
     return res
 
-    
-
 class Block(pg.sprite.Sprite):
     pos_x: int
     pos_y: int
@@ -23,15 +22,16 @@ class Block(pg.sprite.Sprite):
     def __init__(self, img: str, x_pos: int, y_pos: int, color: pg.Color):
         pg.sprite.Sprite.__init__(self)
         self.surface = pg.transform.scale(pg.image.load(img), (32, 32))
-        self.pos_x = x_pos
-        self.pos_y = y_pos
+        self.rect = self.surface.get_rect()
+        self.rect.x = x_pos
+        self.rect.y = y_pos
 
         colorSurface = pg.Surface((32, 32), pg.SRCALPHA)
         colorSurface.fill(color)
         self.surface.blit(colorSurface, colorSurface.get_rect())
     
-    def update(self):
-        self.pos_x -= 5
+    def update(self) -> None:
+        self.rect.x -= 5
 
     def inside(self, x: int, y: int) -> bool:
         if self.pos_x <= x <= self.pos_x + self.surface.get_width():
@@ -40,13 +40,9 @@ class Block(pg.sprite.Sprite):
         return False
 
 class Obstacle:
-    blocks: List[Block]
-    num_blocks: int
-    first_block: Block
-
     def __init__(self):
-        self.num_blocks = randint(4, 8)
-        self.blocks = []
+        self.num_blocks: int = randint(3, 5)
+        self.blocks: List[Block] = []
         up_or_down: int = randint(0, 1)
         if up_or_down == 0:
             self.first_block = Block("Block.png", 800, 0, getBlockColor())
@@ -72,7 +68,6 @@ class Obstacle:
                 curr_x -= self.first_block.surface.get_width()
             self.blocks.append(Block("Block.png", curr_x, curr_y, getBlockColor()))
         
-
     def build_obstacle_bottom(self) -> None:
         curr_x: int = 800
         curr_y: int = 600
@@ -96,32 +91,28 @@ class Obstacle:
         return self.blocks
 
     def check_for_removal(self) -> bool:
-        if self.first_block.pos_x < 0:
+        if self.first_block.rect.x < 0:
             return True
         else:
             return False
     
-    def collision_check(self) -> bool: #Checks if the four corners of some other surface is inside any of the blocks in the obstacle
+    def collision_check(self, other: Player) -> bool:
+        for block in self.blocks:
+            if block.rect.colliderect(other.rect):
+                return True
         return False
 
-
 class ObstacleSet:
-    obstacles: List[Obstacle]
-
     def __init__(self):
-        self.obstacles = []
-    
-    def add_obstacle(self, obs: Obstacle) -> None:
-        self.get_obstacles().append(obs)
+        self.obstacles: List[Obstacle] = []
     
     def generate(self) -> None:
-        if (randint(0, 4) < 1):
-            self.add_obstacle(Obstacle())
+        self.get_obstacles().append(Obstacle())
     
     def clear_trash(self) -> None:
         for obstacle in self.get_obstacles():
             if obstacle.check_for_removal():
-                self.obstacles.remove(obstacle)      
+                self.obstacles.remove(obstacle)
 
     def get_obstacles(self) -> List[Obstacle]:
         return self.obstacles
@@ -129,3 +120,9 @@ class ObstacleSet:
     def update(self) -> None:
         for obstacle in self.get_obstacles():
             obstacle.update()
+
+    def check_for_collisions(self, other: Player) -> bool:
+        for obstacle in self.obstacles:
+            if obstacle.collision_check(other):
+                return True
+        return False

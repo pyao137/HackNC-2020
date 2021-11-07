@@ -1,10 +1,11 @@
 import pygame as pg
-import sys
 from pygame.locals import *
 import pygame.mouse as mouse
-import math
+from player import Player
 from obstacles import ObstacleSet
 from player import Player
+from map import Map
+from tokens import TokenSet
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -18,7 +19,7 @@ def main():
 
     running = True
     clock = pg.time.Clock()
-    obs: ObstacleSet = ObstacleSet()
+    map: Map = Map(ObstacleSet(), TokenSet())
     while running:
         clock.tick(60)
         for event in pg.event.get():
@@ -29,20 +30,24 @@ def main():
         plr.update(mouse.get_pressed()[0], SCREEN_HEIGHT - 10)
 
         # Check for collisions here
-
+        if map.check_for_collision(plr):
+            break
+        map.check_for_token_eat(plr)
 
         # Generate and clean up obstacles
-        obs.clear_trash()
-        obs.generate()
+        map.clear_trash()
+        map.generate()
 
         # Draw the actual content
         screen.fill((255, 255, 255))
-        for obstacle in obs.get_obstacles():
+        for obstacle in map.obstacle_set.get_obstacles():
             for block in obstacle.get_blocks():
-                screen.blit(block.surface, (block.pos_x, block.pos_y))
+                screen.blit(block.surface, block.rect)
+        for token in map.token_set.get_tokens():
+            screen.blit(token.surface, token.rect) 
         screen.blit(plr.surf, plr.rect)
         pg.display.flip()
-        obs.update()
+        map.update()
 
 if __name__ == "__main__":
     main()

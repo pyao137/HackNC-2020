@@ -1,5 +1,7 @@
 import pygame as pg
 
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 class Player(pg.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
@@ -15,6 +17,3 @@ class Player(pg.sprite.Sprite):
 
     def increaseLength(self):
         self.surf = pg.Surface((self.surf.get_width() + 25, self.surf.get_height()))
-
-    def getBoundingBox():
-        pass
