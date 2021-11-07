@@ -15,6 +15,8 @@ class Player:
         self.surf = pg.Surface((self.surf.get_width(), newHeight))
 
     def increaseLength(self):
-        self.surf = pg.Surface((self.surf.get_width() + constants.PLAYER_LENGTH_GROWTH, self.surf.get_height()))        
-        self.rect.width += constants.PLAYER_LENGTH_GROWTH
-        self.rect.move_ip(-25, 0)
+        currentLength = self.surf.get_width()
+        newLength = min(currentLength + constants.PLAYER_LENGTH_GROWTH, constants.PLAYER_MAX_LENGTH)
+        self.surf = pg.Surface((newLength, self.surf.get_height()))
+        self.rect.width = newLength
+        self.rect.move_ip(currentLength - newLength, 0)
