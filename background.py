@@ -16,6 +16,7 @@ class Star:
 class Cloud:
     def __init__(self, img: str, x_pos: int, y_pos: int):
         self.surface = pg.image.load(img)
+        self.surface = pg.transform.scale(pg.image.load(img), (100, 100))
         self.rect = self.surface.get_rect()
         self.rect.x = x_pos
         self.rect.y = y_pos
@@ -26,7 +27,7 @@ class Cloud:
 class CloudSet:
     def __init__(self):
         self.clouds: List[Cloud] = []
-        for i in range(2, randint(3, 4)):
+        for i in range(0, randint(3, 4)):
             self.clouds.append(Cloud("assets/cloud.png", randint(0, constants.SCREEN_WIDTH), randint(0, constants.SCREEN_HEIGHT)))
 
     def generate_cloud(self):

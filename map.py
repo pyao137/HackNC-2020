@@ -26,7 +26,7 @@ class Map:
                 self.obstacle_set.generate()
             elif i <= 30:
                 self.token_set.generate_token()
-            elif i<= 37:
+            elif i <= 37:
                 self.star_set.generate_star()
             else:
                 self.cloud_set.generate_cloud()
@@ -44,6 +44,6 @@ class Map:
         self.token_set.update()
         self.obstacle_set.update()
         self.star_set.update()
-        self.cloud_set.generate_cloud()
+        self.cloud_set.update()
         self.clear_trash()
         self.generate()
