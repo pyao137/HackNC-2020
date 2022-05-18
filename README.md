@@ -6,4 +6,4 @@ To run, make sure you have Python and pygame downloaded, and then run the main.p
 
 You can download Python here: https://www.python.org/downloads/, and you can install pygame using pip in your command-line
 
-This project was created for HackNC 2021, and won in the entertainment track. See our DevPost submission here: https://devpost.com/software/thicc-snake
+This project was created for HackNC 2021, and won in the entertainment track. See our DevPost submission [here!](https://devpost.com/software/thicc-snake)
